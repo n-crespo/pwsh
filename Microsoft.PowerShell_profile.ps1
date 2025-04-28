@@ -62,3 +62,4 @@ if ($Host.Name -eq 'ConsoleHost') {
   Set-PSReadlineKeyHandler -Key ctrl+l -Function ClearScreen
 }
 
+Invoke-Expression (& { (zoxide init powershell --cmd j | Out-String) })
