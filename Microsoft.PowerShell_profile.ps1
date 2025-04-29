@@ -31,6 +31,9 @@ Function targetstop {
 
   $env:TERM='xterm-256color'
   $env:PATH += ";C:\Users\nicol\sqlite\"
+  $env:PATH += ";C:\Users\nicol\AppData\Local\Programs\arduino-ide\resources\app\lib\backend\resources\"
+  $env:ARDUINO_CONFIG_FILE += "C:\Users\nicol\.arduinoIDE\arduino-cli.yaml"
+
 
   function lis { eza --icons=always --group-directories-first @args }
   Set-Alias ls lis
