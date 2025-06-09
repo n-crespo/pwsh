@@ -1,12 +1,10 @@
-function Exit-Shell { exit }
-
-Set-Alias -Name q -Value Exit-Shell
-Set-Alias -Name lg -Value lazygit
-Set-Alias -Name n -Value nvim
-Set-Alias -Name g -Value git
+function lg { lazygit @args }
+function n { nvim @args }
+function g { git @args }
 Function n. { nvim . }
 Function nl {nvim -c':e#<1'}
 Function e { yazi }
+Function q { exit }
 
 Function attackstart {
     try {
@@ -60,7 +58,7 @@ Set-Alias lt ltt
 Set-Alias ff fastfetch
 
 # PSReadLine configuration (interactive shell only)
-if ($Host.Name -eq 'ConsoleHost') {
+if ($Host.UI.SupportsVirtualTerminal) {
     Import-Module PSReadLine
     Set-PSReadLineOption -PredictionSource HistoryAndPlugin
     Set-PSReadLineOption -PredictionViewStyle List
@@ -68,7 +66,7 @@ if ($Host.Name -eq 'ConsoleHost') {
 
     Set-PSReadLineKeyHandler -Chord 'Ctrl+w' -Function BackwardKillWord
     Set-PSReadLineKeyHandler -Key ctrl+d -Function ViExit
-    Set-PSReadLineKeyHandler -Key ctrl+enter -Function AcceptLine
+    # Set-PSReadLineKeyHandler -Key ctrl+enter -Function AcceptLine
     Set-PSReadLineKeyHandler -Key ctrl+n -Function NextHistory
     Set-PSReadLineKeyHandler -Key ctrl+p -Function PreviousHistory
     Set-PSReadLineKeyHandler -Key ctrl+l -Function ClearScreen
