@@ -41,6 +41,7 @@ $env:TERM = 'xterm-256color'
 $env:PATH += ";C:\Users\nicol\sqlite\"
 $env:PATH += ";C:\Users\nicol\AppData\Local\Programs\arduino-ide\resources\app\lib\backend\resources\"
 $env:PATH += ";C:\Windows\System32"
+$env:Path += ";C:\Users\user\AppData\Local\Programs\oh-my-posh\bin"
 $env:ARDUINO_CONFIG_FILE = "C:\Users\nicol\.arduinoIDE\arduino-cli.yaml"
 
 function lis { eza --icons=always --group-directories-first @args }
