@@ -6,6 +6,7 @@ Function nl {nvim -c':e#<1' }
 Function e { yazi }
 Function q { exit }
 Function gp { git pull }
+Function so { . $PROFILE }
 
 Function attackstart {
   try {
@@ -35,7 +36,7 @@ Function targetstop {
 }
 
 # Environment variables
-$ENV:EDITOR = "\\wsl$\Ubuntu\usr\bin\nvim"
+$ENV:EDITOR = "nvim"
 $env:NVIM_FULL_CONFIG = 1
 $env:TERM = 'xterm-256color'
 $env:PATH += ";C:\Users\nicol\sqlite\"
@@ -78,9 +79,17 @@ if ($Host.UI.SupportsVirtualTerminal) {
     [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine()
   }
   # Bind Ctrl+j to the custom Insert-Ji function
-  Set-PSReadLineKeyHandler -Key Ctrl+j -ScriptBlock { Insert-Ji }
+  Set-PSReadLineKeyHandler -Key Ctrl+j -ScriptBlock { __zoxide_zi }
 
 }
 
 # Initialize zoxide
 Invoke-Expression (& { (zoxide init powershell --cmd j | Out-String) })
+oh-my-posh prompt init pwsh --config C:\Users\nicol\.mytheme.omp.json | Invoke-Expression
+Write-Host "`e[6 q"
+
+
+
+
+
+
