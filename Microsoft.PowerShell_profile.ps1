@@ -1,38 +1,68 @@
-function lg { lazygit @args }
-function n { nvim @args }
-function g { git @args }
-Function n. { nvim . }
-Function nl {nvim -c':e#<2' }
-Function e { yazi }
-Function q { exit }
-Function gp { git pull }
-Function so { . $PROFILE }
+function lg
+{ lazygit @args
+}
+function n
+{ nvim @args
+}
+function g
+{ git @args
+}
+Function n.
+{ nvim .
+}
+Function nl
+{nvim -c':e#<2'
+}
+Function e
+{ yazi
+}
+Function q
+{ exit
+}
+Function gp
+{ git pull
+}
+Function so
+{ . $PROFILE
+}
 
-Function attackstart {
-  try {
+Function attackstart
+{
+  try
+  {
     vmrun -T ws start "C:\Users\nicol\OneDrive\Documents\Virtual Machines\Test VM\Test VM.vmx" nogui
+  } catch
+  { Write-Error "Failed to start the attack VM: $_"
   }
-  catch { Write-Error "Failed to start the attack VM: $_" }
 }
 
-Function attackstop {
-  try {
+Function attackstop
+{
+  try
+  {
     vmrun -T ws stop "C:\Users\nicol\OneDrive\Documents\Virtual Machines\Test VM\Test VM.vmx" hard
+  } catch
+  { Write-Error "Failed to stop the attack VM: $_"
   }
-  catch { Write-Error "Failed to stop the attack VM: $_" }
 }
 
-Function targetstart {
-  try {
+Function targetstart
+{
+  try
+  {
     vmrun -T ws start "C:\Users\nicol\OneDrive\Documents\Virtual Machines\Target\Target.vmx" nogui
+  } catch
+  { Write-Error "Failed to start the target VM: $_"
   }
-  catch { Write-Error "Failed to start the target VM: $_" }
 }
-Function targetstop {
-  try {
+Function targetstop
+{
+  try
+  {
     vmrun -T ws stop "C:\Users\nicol\OneDrive\Documents\Virtual Machines\Target\Target.vmx" hard
+  } catch
+  { Write-Error "Failed to stop the target VM: $_"
   }
-  catch { Write-Error "Failed to stop the target VM: $_" }
 }
 
 # Environment variables
@@ -48,22 +78,31 @@ $env:FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git --exclude .venv'
 $env:FZF_DEFAULT_OPTS='--style=minimal --info=inline --height=51% --reverse'
 $env:_ZO_FZF_OPTS='--style=minimal --info=inline --height=51% --reverse'
 
-function lis { eza --icons=always --group-directories-first @args }
-Set-Alias ls lis
+function eza_short
+{ eza --icons=always --group-directories-first --color=always @args
+}
+Set-Alias ls eza_short
 
-function laa { eza -Alh --group-directories-first @args }
-Set-Alias la laa
+function eza_alh
+{ eza -Alh --group-directories-first --color=always @args
+}
+Set-Alias la eza_alh
 
-function ll { eza -l --group-directories-first --git -a @args }
-Set-Alias l ll
+function eza_l
+{ eza -l --icons=always --group-directories-first --color=always --git -a @args
+}
+Set-Alias l eza_l
 
-function ltt { ls --tree @args }
+function ltt
+{ eza --tree @args
+}
 Set-Alias lt ltt
 
 Set-Alias ff fastfetch
 
 # PSReadLine configuration (interactive shell only)
-if ($Host.UI.SupportsVirtualTerminal) {
+if ($Host.UI.SupportsVirtualTerminal)
+{
   Import-Module PSReadLine
   # Set-PSReadLineOption -PredictionSource HistoryAndPlugin
   # Set-PSReadLineOption -PredictionViewStyle Inline
@@ -83,18 +122,19 @@ if ($Host.UI.SupportsVirtualTerminal) {
   # Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
   Set-PSReadLineKeyHandler -Key Ctrl+r -ScriptBlock { Invoke-FuzzyHistory }
 
-# open a file
-Set-PSReadLineKeyHandler -Key Ctrl+o -ScriptBlock {
+  # open a file
+  Set-PSReadLineKeyHandler -Key Ctrl+o -ScriptBlock {
     $selectedFile = (fd --type f --hidden --exclude .git --exclude .venv) | Invoke-Fzf
-    if ($selectedFile) {
-        $currentDirectory = (Get-Location).Path
-        $fullPathToOpen = Join-Path -Path $currentDirectory -ChildPath $selectedFile
+    if ($selectedFile)
+    {
+      $currentDirectory = (Get-Location).Path
+      $fullPathToOpen = Join-Path -Path $currentDirectory -ChildPath $selectedFile
 
-        $nvimCommand = "nvim `"$fullPathToOpen`""
-        Start-Process cmd.exe -ArgumentList "/c $nvimCommand" -NoNewWindow -Wait
+      $nvimCommand = "nvim `"$fullPathToOpen`""
+      Start-Process cmd.exe -ArgumentList "/c $nvimCommand" -NoNewWindow -Wait
     }
     [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
-}
+  }
 
   Set-PSReadLineKeyHandler -Key Ctrl+g -ScriptBlock {
     Get-ChildItem . -Recurse -Attributes Directory | Invoke-Fzf | Set-Location
