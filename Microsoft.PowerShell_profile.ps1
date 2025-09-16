@@ -147,3 +147,17 @@ if ($Host.UI.SupportsVirtualTerminal)
 
 Invoke-Expression (& { (zoxide init powershell --cmd j | Out-String) }) # Initialize zoxide
 # oh-my-posh prompt init pwsh --config C:\Users\nicol\.mytheme.omp.json | Invoke-Expression
+function global:prompt
+{
+  $currentDirectory = (Get-Location).Path
+
+  # Use the $HOME variable for the user's home directory
+  $displayPath = $currentDirectory.Replace($HOME, "~")
+
+  # Set the window title
+  $Host.UI.RawUI.WindowTitle = $displayPath
+
+  # Display the prompt with the modified path
+  Write-Host "$displayPath` ❯" -NoNewline
+  return " "
+}
