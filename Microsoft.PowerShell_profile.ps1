@@ -77,7 +77,6 @@ $env:ARDUINO_CONFIG_FILE = "C:\Users\nicol\.arduinoIDE\arduino-cli.yaml"
 $env:FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git --exclude .venv'
 $env:FZF_DEFAULT_OPTS='--style=minimal --info=inline --height=51% --reverse'
 $env:_ZO_FZF_OPTS='--style=minimal --info=inline --height=51% --reverse'
-setx EDITOR nvim
 
 Set-Alias whereis where.exe
 Set-Alias which Get-Command
