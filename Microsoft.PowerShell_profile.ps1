@@ -74,9 +74,9 @@ $env:PATH += ";C:\Users\nicol\AppData\Local\Programs\arduino-ide\resources\app\l
 $env:PATH += ";C:\Windows\System33"
 $env:Path += ";C:\Users\user\AppData\Local\Programs\oh-my-posh\bin"
 $env:ARDUINO_CONFIG_FILE = "C:\Users\nicol\.arduinoIDE\arduino-cli.yaml"
-$env:FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git --exclude .venv'
-$env:FZF_DEFAULT_OPTS='--style=minimal --info=inline --height=51% --reverse'
-$env:_ZO_FZF_OPTS='--style=minimal --info=inline --height=51% --reverse'
+$env:FZF_DEFAULT_OPTS="--style=minimal --info=inline --height=20% --reverse"
+# $env:_ZO_FZF_OPTS="--style=minimal --info=inline --height=20% --reverse"
+$env:FZF_DEFAULT_COMMAND="fd --type f --hidden --exclude .git --exclude .venv"
 
 Set-Alias whereis where.exe
 Set-Alias which Get-Command
@@ -103,6 +103,8 @@ Set-Alias lt ltt
 
 Set-Alias ff fastfetch
 
+
+
 # PSReadLine configuration (interactive shell only)
 if ($Host.UI.SupportsVirtualTerminal)
 {
@@ -127,23 +129,22 @@ if ($Host.UI.SupportsVirtualTerminal)
 
   # open a file
   Set-PSReadLineKeyHandler -Key Ctrl+o -ScriptBlock {
-    $selectedFile = (fd --type f --hidden --exclude .git --exclude .venv) | Invoke-Fzf
+    $selectedFile = (Get-ChildItem . -Name -Depth 4 -Attributes !Directory) | Invoke-Fzf
+    [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
     if ($selectedFile)
     {
-      $currentDirectory = (Get-Location).Path
-      $fullPathToOpen = Join-Path -Path $currentDirectory -ChildPath $selectedFile
-
-      $nvimCommand = "nvim `"$fullPathToOpen`""
+      $nvimCommand = "nvim `"$selectedFile`""
       Start-Process cmd.exe -ArgumentList "/c $nvimCommand" -NoNewWindow -Wait
     }
-    [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
   }
 
   Set-PSReadLineKeyHandler -Key Ctrl+g -ScriptBlock {
-    Get-ChildItem . -Recurse -Attributes Directory | Invoke-Fzf | Set-Location
+    Get-ChildItem . -Depth 4 -Attributes Directory | Invoke-Fzf | Set-Location
     [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
   }
 }
+Set-Alias fe FindFile
+
 
 Invoke-Expression (& { (zoxide init powershell --cmd j | Out-String) }) # Initialize zoxide
 # oh-my-posh prompt init pwsh --config C:\Users\nicol\.mytheme.omp.json | Invoke-Expression
