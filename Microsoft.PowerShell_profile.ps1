@@ -125,7 +125,10 @@ if ($Host.UI.SupportsVirtualTerminal)
     [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
   }
   # Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
-  Set-PSReadLineKeyHandler -Key Ctrl+r -ScriptBlock { Invoke-FuzzyHistory }
+  Set-PSReadLineKeyHandler -Key Ctrl+r -ScriptBlock {
+    Invoke-FuzzyHistory
+    [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
+  }
 
   # open a file
   Set-PSReadLineKeyHandler -Key Ctrl+o -ScriptBlock {
@@ -143,11 +146,9 @@ if ($Host.UI.SupportsVirtualTerminal)
     [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
   }
 }
-Set-Alias fe FindFile
 
 
 Invoke-Expression (& { (zoxide init powershell --cmd j | Out-String) }) # Initialize zoxide
-# oh-my-posh prompt init pwsh --config C:\Users\nicol\.mytheme.omp.json | Invoke-Expression
 function global:prompt
 {
   $currentDirectory = (Get-Location).Path
