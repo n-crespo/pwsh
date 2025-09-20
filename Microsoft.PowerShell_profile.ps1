@@ -4,6 +4,10 @@ function lg
 function n
 { nvim @args
 }
+function ns
+{ nvim -c 'lua require("persistence").load()'
+
+}
 function g
 { git @args
 }
