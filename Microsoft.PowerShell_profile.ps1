@@ -120,11 +120,11 @@ function pk
 }
 function cenv
 {
-  python -m venv .venv
+  py -m venv .venv
 }
 function senv
 {
-  .\.venv\Scripts\activate.bat
+  .venv\Scripts\activate
 }
 
 Set-Alias ff fastfetch
