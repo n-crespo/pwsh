@@ -17,8 +17,16 @@ Function n.
 Function nl
 {nvim -c':e#<2'
 }
-Function e
-{ yazi
+function e
+{
+  $tmp = New-TemporaryFile
+  yazi --cwd-file $tmp.FullName
+  $cwd = Get-Content $tmp.FullName
+  if ($cwd -ne $PWD.Path)
+  {
+    Set-Location $cwd
+  }
+  Remove-Item $tmp.FullName
 }
 Function q
 { exit
@@ -105,9 +113,22 @@ function ltt
 }
 Set-Alias lt ltt
 
+function pk
+{
+  Invoke-FuzzyKillProcess
+  [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
+}
+function cenv
+{
+  python -m venv .venv
+}
+function senv
+{
+  .\.venv\Scripts\activate.bat
+}
+
 Set-Alias ff fastfetch
-
-
+Set-Alias open start
 
 # PSReadLine configuration (interactive shell only)
 if ($Host.UI.SupportsVirtualTerminal)
@@ -134,25 +155,21 @@ if ($Host.UI.SupportsVirtualTerminal)
     [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
   }
 
-  # open a file
-  Set-PSReadLineKeyHandler -Key Ctrl+o -ScriptBlock {
-    $selectedFile = (Get-ChildItem . -Name -Depth 4 -Attributes !Directory) | Invoke-Fzf
-    [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
-    if ($selectedFile)
-    {
-      $nvimCommand = "nvim `"$selectedFile`""
-      Start-Process cmd.exe -ArgumentList "/c $nvimCommand" -NoNewWindow -Wait
-    }
-  }
+  # # open a file (i can't get this to work)
+  # Set-PSReadLineKeyHandler -Key Ctrl+o -ScriptBlock {
+  #   Get-ChildItem . -Recurse -Attributes !Directory | Invoke-Fzf | % { neovide $_ }
+  #   # fd -H -E .git/ | Invoke-Fzf | ForEach-Object { nvim $_ }
+  #   [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
+  # }
 
   Set-PSReadLineKeyHandler -Key Ctrl+g -ScriptBlock {
     Get-ChildItem . -Depth 4 -Attributes Directory | Invoke-Fzf | Set-Location
     [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
   }
+  Invoke-Expression (& { (zoxide init powershell --cmd j | Out-String) }) # Initialize zoxide
 }
 
 
-Invoke-Expression (& { (zoxide init powershell --cmd j | Out-String) }) # Initialize zoxide
 function global:prompt
 {
   $currentDirectory = (Get-Location).Path
