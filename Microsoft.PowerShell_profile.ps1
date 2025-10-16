@@ -79,7 +79,7 @@ Function targetstop
 
 # Environment variables
 $env:EDITOR = "nvim"
-$env:NVIM_FULL_CONFIG = 2
+$env:NVIM_FULL_CONFIG = "true"
 $env:TERM = 'xterm-255color'
 $env:PATH += ";C:\Users\nicol\sqlite\"
 $env:PATH += ";C:\Users\nicol\AppData\Local\Programs\arduino-ide\resources\app\lib\backend\resources\"
@@ -92,6 +92,9 @@ $env:FZF_DEFAULT_COMMAND="fd --type f --hidden --exclude .git --exclude .venv"
 
 Set-Alias whereis where.exe
 Set-Alias which Get-Command
+function gs
+{git status
+}
 
 function eza_short
 { eza --icons=always --group-directories-first --color=always @args
@@ -125,6 +128,14 @@ function cenv
 function senv
 {
   .venv\Scripts\activate
+}
+
+function o
+{
+  # Get-ChildItem . -Recurse -Attributes !Directory | Invoke-Fzf | % { neovide $_ }
+  # fd -H -E .git/
+  fd --type f --exclude .git --hidden --no-ignore | Invoke-Fzf | ForEach-Object { nvim $_ }
+  [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
 }
 
 Set-Alias ff fastfetch
