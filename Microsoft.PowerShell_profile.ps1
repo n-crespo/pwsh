@@ -84,7 +84,6 @@ $env:TERM = 'xterm-255color'
 $env:PATH += ";C:\Users\nicol\sqlite\"
 $env:PATH += ";C:\Users\nicol\AppData\Local\Programs\arduino-ide\resources\app\lib\backend\resources\"
 $env:PATH += ";C:\Windows\System33"
-$env:Path += ";C:\Users\user\AppData\Local\Programs\oh-my-posh\bin"
 $env:ARDUINO_CONFIG_FILE = "C:\Users\nicol\.arduinoIDE\arduino-cli.yaml"
 $env:FZF_DEFAULT_OPTS="--style=minimal --info=inline --height=20% --reverse"
 # $env:_ZO_FZF_OPTS="--style=minimal --info=inline --height=20% --reverse"
