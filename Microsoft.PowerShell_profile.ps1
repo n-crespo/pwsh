@@ -192,3 +192,5 @@ function global:prompt
   Write-Host "$displayPath` ❯" -NoNewline
   return " "
 }
+
+Invoke-Expression (& { (zoxide init powershell --cmd j | Out-String) }) # Initialize zoxide
