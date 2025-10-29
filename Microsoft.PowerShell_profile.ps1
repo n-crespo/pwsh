@@ -138,30 +138,35 @@ function o
 Set-Alias ff fastfetch
 Set-Alias open start
 
-# PSReadLine configuration (interactive shell only)
-if ($Host.UI.SupportsVirtualTerminal)
+if ($Host.UI.SupportsVirtualTerminal) # interactive shell only
 {
   Import-Module PSReadLine
-  # Set-PSReadLineOption -PredictionSource HistoryAndPlugin
-  # Set-PSReadLineOption -PredictionViewStyle Inline
   Set-PSReadLineOption -BellStyle None
-
   Set-PSReadLineKeyHandler -Chord 'Ctrl+w' -Function BackwardKillWord
   Set-PSReadLineKeyHandler -Key ctrl+d -Function ViExit
-  # Set-PSReadLineKeyHandler -Key ctrl+enter -Function AcceptLine
   Set-PSReadLineKeyHandler -Key ctrl+n -Function NextHistory
   Set-PSReadLineKeyHandler -Key ctrl+p -Function PreviousHistory
   Set-PSReadLineKeyHandler -Key ctrl+l -Function ClearScreen
+  Set-PSReadLineKeyHandler -Key ctrl+enter -Function AcceptLine
 
-  Set-PSReadLineKeyHandler -Key Ctrl+j -ScriptBlock {
-    zoxide query -l | Invoke-Fzf | Set-Location
-    [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
-  }
-  # Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
   Set-PSReadLineKeyHandler -Key Ctrl+r -ScriptBlock {
     Invoke-FuzzyHistory
     [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
   }
+
+  # Set-PSReadLineOption -PredictionSource HistoryAndPlugin
+  # Set-PSReadLineOption -PredictionViewStyle Inline
+
+  # Set-PSReadLineKeyHandler -Key Ctrl+j -ScriptBlock {
+  #   zoxide query -l | Invoke-Fzf | Set-Location
+  #   [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
+  # }
+  # Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
+
+  # Set-PSReadLineKeyHandler -Key Ctrl+g -ScriptBlock {
+  #   Get-ChildItem . -Depth 4 -Attributes Directory | Invoke-Fzf | Set-Location
+  #   [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
+  # }
 
   # # open a file (i can't get this to work)
   # Set-PSReadLineKeyHandler -Key Ctrl+o -ScriptBlock {
@@ -169,26 +174,14 @@ if ($Host.UI.SupportsVirtualTerminal)
   #   # fd -H -E .git/ | Invoke-Fzf | ForEach-Object { nvim $_ }
   #   [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
   # }
-
-  Set-PSReadLineKeyHandler -Key Ctrl+g -ScriptBlock {
-    Get-ChildItem . -Depth 4 -Attributes Directory | Invoke-Fzf | Set-Location
-    [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
-  }
-  Invoke-Expression (& { (zoxide init powershell --cmd j | Out-String) }) # Initialize zoxide
 }
 
 
 function global:prompt
 {
   $currentDirectory = (Get-Location).Path
-
-  # Use the $HOME variable for the user's home directory
   $displayPath = $currentDirectory.Replace($HOME, "~")
-
-  # Set the window title
-  $Host.UI.RawUI.WindowTitle = $displayPath
-
-  # Display the prompt with the modified path
+  $Host.UI.RawUI.WindowTitle = $displayPath # window title
   Write-Host "$displayPath` ❯" -NoNewline
   return " "
 }
