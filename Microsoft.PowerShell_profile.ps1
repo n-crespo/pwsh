@@ -131,9 +131,7 @@ function senv
 
 function o
 {
-  # Get-ChildItem . -Recurse -Attributes !Directory | Invoke-Fzf | % { neovide $_ }
-  # fd -H -E .git/
-  fd --type f --exclude .git --hidden --no-ignore | Invoke-Fzf | ForEach-Object { nvim $_ }
+  fd --type f --exclude .git --hidden | Invoke-Fzf | ForEach-Object { nvim $_ }
   [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
 }
 
