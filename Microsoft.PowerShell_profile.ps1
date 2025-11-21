@@ -177,12 +177,38 @@ if ($Host.UI.SupportsVirtualTerminal) # interactive shell only
 }
 
 
+# function global:prompt
+# {
+#   $currentDirectory = (Get-Location).Path
+#   $displayPath = $currentDirectory.Replace($HOME, "~")
+#   $Host.UI.RawUI.WindowTitle = $displayPath # window title
+#   Write-Host "[win] $displayPath` ❯" -NoNewline
+#   return " "
+# }
+
 function global:prompt
 {
   $currentDirectory = (Get-Location).Path
   $displayPath = $currentDirectory.Replace($HOME, "~")
-  $Host.UI.RawUI.WindowTitle = $displayPath # window title
-  Write-Host "$displayPath` ❯" -NoNewline
+  $windowTitle = "${displayPath}: "
+
+  if ($Host.Name -ne "ConsoleHost") {
+      $processName = $Host.Name
+  }
+  else {
+      $processName = (Get-Process -Id $PID).ProcessName
+      $windowTitle = "${displayPath}"
+  }
+
+  # to include the name of the host process even if it's the console, uncomment the line below:
+  # $Host.UI.RawUI.WindowTitle = "$windowTitle $processName"
+  if ($Host.Name -ne "ConsoleHost") {
+      $Host.UI.RawUI.WindowTitle = "${windowTitle}: $($Host.Name)"
+  } else {
+      $Host.UI.RawUI.WindowTitle = "${displayPath}"
+  }
+
+  Write-Host "[win] ${displayPath}` ❯" -NoNewline
   return " "
 }
 
