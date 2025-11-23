@@ -153,26 +153,32 @@ if ($Host.UI.SupportsVirtualTerminal) # interactive shell only
     Invoke-FuzzyHistory
     [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
   }
+  Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
+  Set-PsFzfOption -TabExpansion
+  # Set-PsFzfOption -EnableAliasFuzzyEdit # pk
+  Set-PsFzfOption -EnableAliasFuzzyEdit # fe
+  Set-PsFzfOption -EnableAliasFuzzyKill # fkill
+  Set-PsFzfOption -EnableAliasFuzzyScoop # fs
+  Set-PsFzfOption -EnableAliasPsFzfRipGrep
 
   # Set-PSReadLineOption -PredictionSource HistoryAndPlugin
   # Set-PSReadLineOption -PredictionViewStyle Inline
 
-  # Set-PSReadLineKeyHandler -Key Ctrl+j -ScriptBlock {
-  #   zoxide query -l | Invoke-Fzf | Set-Location
-  #   [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
-  # }
-  # Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
+  Set-PSReadLineKeyHandler -Key Ctrl+j -ScriptBlock {
+    zoxide query -l | Invoke-Fzf | Set-Location
+    [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
+  }
+  Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
 
   # Set-PSReadLineKeyHandler -Key Ctrl+g -ScriptBlock {
   #   Get-ChildItem . -Depth 4 -Attributes Directory | Invoke-Fzf | Set-Location
   #   [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
   # }
 
-  # # open a file (i can't get this to work)
+  # open a file (i can't get this to work)
   # Set-PSReadLineKeyHandler -Key Ctrl+o -ScriptBlock {
-  #   Get-ChildItem . -Recurse -Attributes !Directory | Invoke-Fzf | % { neovide $_ }
-  #   # fd -H -E .git/ | Invoke-Fzf | ForEach-Object { nvim $_ }
-  #   [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
+    # Invoke-FuzzyEdit
+    # [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
   # }
 }
 
