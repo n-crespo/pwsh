@@ -1,82 +1,3 @@
-function lg
-{ lazygit @args
-}
-function n
-{ nvim @args
-}
-function ns
-{ nvim -c 'lua require("persistence").load()'
-
-}
-function g
-{ git @args
-}
-Function n.
-{ nvim .
-}
-Function nl
-{nvim -c':e#<2'
-}
-function e
-{
-  $tmp = New-TemporaryFile
-  yazi --cwd-file $tmp.FullName
-  $cwd = Get-Content $tmp.FullName
-  if ($cwd -ne $PWD.Path)
-  {
-    Set-Location $cwd
-  }
-  Remove-Item $tmp.FullName
-}
-Function q
-{ exit
-}
-Function gp
-{ git pull
-}
-Function so
-{ . $PROFILE
-}
-
-Function attackstart
-{
-  try
-  {
-    vmrun -T ws start "C:\Users\nicol\OneDrive\Documents\Virtual Machines\Test VM\Test VM.vmx" nogui
-  } catch
-  { Write-Error "Failed to start the attack VM: $_"
-  }
-}
-
-Function attackstop
-{
-  try
-  {
-    vmrun -T ws stop "C:\Users\nicol\OneDrive\Documents\Virtual Machines\Test VM\Test VM.vmx" hard
-  } catch
-  { Write-Error "Failed to stop the attack VM: $_"
-  }
-}
-
-Function targetstart
-{
-  try
-  {
-    vmrun -T ws start "C:\Users\nicol\OneDrive\Documents\Virtual Machines\Target\Target.vmx" nogui
-  } catch
-  { Write-Error "Failed to start the target VM: $_"
-  }
-}
-Function targetstop
-{
-  try
-  {
-    vmrun -T ws stop "C:\Users\nicol\OneDrive\Documents\Virtual Machines\Target\Target.vmx" hard
-  } catch
-  { Write-Error "Failed to stop the target VM: $_"
-  }
-}
-
 # Environment variables
 $env:EDITOR = "nvim"
 $env:NVIM_FULL_CONFIG = "true"
@@ -91,109 +12,78 @@ $env:FZF_DEFAULT_COMMAND="fd --type f --hidden --exclude .git --exclude .venv"
 
 Set-Alias whereis where.exe
 Set-Alias which Get-Command
-function gs
-{git status
-}
-
-function eza_short
-{ eza --icons=always --group-directories-first --color=always @args
-}
 Set-Alias ls eza_short
-
-function eza_alh
-{ eza -Alh --group-directories-first --color=always @args
-}
 Set-Alias la eza_alh
-
-function eza_l
-{ eza -l --icons=always --group-directories-first --color=always --git -a @args
-}
 Set-Alias l eza_l
-
-function ltt
-{ eza --tree @args
-}
 Set-Alias lt ltt
+Set-Alias ff fastfetch
+Set-Alias open start
+Set-Alias s sfsu
 
-function pk
-{
+function lg { lazygit @args }
+function n { nvim @args }
+function ns { nvim -c 'lua require("persistence").load()' }
+function g { git @args }
+function n. { nvim . }
+function q { exit }
+function gp { git pull }
+function so { . $PROFILE }
+function gs {git status }
+function eza_short { eza --icons=always --group-directories-first --color=always @args }
+function eza_alh { eza -Alh --group-directories-first --color=always @args }
+function eza_l { eza -l --icons=always --group-directories-first --color=always --git -a @args }
+function ltt { eza --tree @args }
+function cenv { py -m venv .venv }
+function senv { .venv\Scripts\activate }
+function o { fd --type f --exclude .git --hidden | Invoke-Fzf | ForEach-Object { nvim $_ } }
+function pk {
   Invoke-FuzzyKillProcess
   [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
 }
-function cenv
-{
-  py -m venv .venv
-}
-function senv
-{
-  .venv\Scripts\activate
-}
-
-function o
-{
-  fd --type f --exclude .git --hidden | Invoke-Fzf | ForEach-Object { nvim $_ }
-  [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
-}
-
-Set-Alias ff fastfetch
-Set-Alias open start
-
-if ($Host.UI.SupportsVirtualTerminal) # interactive shell only
-{
-  Import-Module PSReadLine
-  Set-PSReadLineOption -BellStyle None
-  Set-PSReadLineKeyHandler -Chord 'Ctrl+w' -Function BackwardKillWord
-  Set-PSReadLineKeyHandler -Key ctrl+d -Function ViExit
-  Set-PSReadLineKeyHandler -Key ctrl+n -Function NextHistory
-  Set-PSReadLineKeyHandler -Key ctrl+p -Function PreviousHistory
-  Set-PSReadLineKeyHandler -Key ctrl+l -Function ClearScreen
-  Set-PSReadLineKeyHandler -Key ctrl+enter -Function AcceptLine
-
-  Set-PSReadLineKeyHandler -Key Ctrl+r -ScriptBlock {
-    Invoke-FuzzyHistory
-    [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
+function e {
+  $tmp = New-TemporaryFile
+  yazi --cwd-file $tmp.FullName
+  $cwd = Get-Content $tmp.FullName
+  if ($cwd -ne $PWD.Path)
+  {
+    Set-Location $cwd
   }
-  Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
-  Set-PsFzfOption -TabExpansion
-  # Set-PsFzfOption -EnableAliasFuzzyEdit # pk
-  Set-PsFzfOption -EnableAliasFuzzyEdit # fe
-  Set-PsFzfOption -EnableAliasFuzzyKill # fkill
-  Set-PsFzfOption -EnableAliasFuzzyScoop # fs
-  Set-PsFzfOption -EnableAliasPsFzfRipGrep
-
-  # Set-PSReadLineOption -PredictionSource HistoryAndPlugin
-  # Set-PSReadLineOption -PredictionViewStyle Inline
-
-  Set-PSReadLineKeyHandler -Key Ctrl+j -ScriptBlock {
-    zoxide query -l | Invoke-Fzf | Set-Location
-    [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
+  Remove-Item $tmp.FullName
+}
+function attackstart {
+  try
+  {
+    vmrun -T ws start "C:\Users\nicol\OneDrive\Documents\Virtual Machines\Test VM\Test VM.vmx" nogui
+  } catch
+  { Write-Error "Failed to start the attack VM: $_"
   }
-  Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
-
-  # Set-PSReadLineKeyHandler -Key Ctrl+g -ScriptBlock {
-  #   Get-ChildItem . -Depth 4 -Attributes Directory | Invoke-Fzf | Set-Location
-  #   [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
-  # }
-
-  # open a file (i can't get this to work)
-  # Set-PSReadLineKeyHandler -Key Ctrl+o -ScriptBlock {
-    # Invoke-FuzzyEdit
-    # [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
-  # }
+}
+function attackstop {
+  try
+  {
+    vmrun -T ws stop "C:\Users\nicol\OneDrive\Documents\Virtual Machines\Test VM\Test VM.vmx" hard
+  } catch
+  { Write-Error "Failed to stop the attack VM: $_"
+  }
+}
+function targetstart {
+  try
+  {
+    vmrun -T ws start "C:\Users\nicol\OneDrive\Documents\Virtual Machines\Target\Target.vmx" nogui
+  } catch
+  { Write-Error "Failed to start the target VM: $_"
+  }
+}
+function targetstop {
+  try
+  {
+    vmrun -T ws stop "C:\Users\nicol\OneDrive\Documents\Virtual Machines\Target\Target.vmx" hard
+  } catch
+  { Write-Error "Failed to stop the target VM: $_"
+  }
 }
 
-
-# function global:prompt
-# {
-#   $currentDirectory = (Get-Location).Path
-#   $displayPath = $currentDirectory.Replace($HOME, "~")
-#   $Host.UI.RawUI.WindowTitle = $displayPath # window title
-#   Write-Host "[win] $displayPath` ❯" -NoNewline
-#   return " "
-# }
-
-function global:prompt
-{
+function global:prompt {
   $currentDirectory = (Get-Location).Path
   $displayPath = $currentDirectory.Replace($HOME, "~")
   $windowTitle = "${displayPath}: "
@@ -218,4 +108,42 @@ function global:prompt
   return " "
 }
 
+if ($Host.UI.SupportsVirtualTerminal) {
+  # interactive shell only
+  # [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
+  Import-Module PSReadLine
+  Set-PSReadLineOption -BellStyle None
+  Set-PSReadLineKeyHandler -Chord 'Ctrl+w' -Function BackwardKillWord
+  Set-PSReadLineKeyHandler -Key ctrl+d -Function ViExit
+  Set-PSReadLineKeyHandler -Key ctrl+n -Function NextHistory
+  Set-PSReadLineKeyHandler -Key ctrl+p -Function PreviousHistory
+  Set-PSReadLineKeyHandler -Key ctrl+l -Function ClearScreen
+  Set-PSReadLineKeyHandler -Key ctrl+enter -Function AcceptLine
+
+  Set-PSReadLineKeyHandler -Key Ctrl+r -ScriptBlock { Invoke-FuzzyHistory }
+  Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
+  Set-PSReadLineKeyHandler -Key Ctrl+j -ScriptBlock { zoxide query -l | Invoke-Fzf | Set-Location }
+
+  Set-PsFzfOption -TabExpansion
+  Set-PsFzfOption -EnableAliasFuzzyEdit # fe
+  Set-PsFzfOption -EnableAliasFuzzyKill # fkill
+  Set-PsFzfOption -EnableAliasFuzzyScoop # fs
+  Set-PsFzfOption -EnableAliasPsFzfRipGrep
+  # Set-PsFzfOption -EnableAliasFuzzyEdit # pk
+
+  # Set-PSReadLineOption -PredictionSource HistoryAndPlugin
+  # Set-PSReadLineOption -PredictionViewStyle Inline
+
+  # Set-PSReadLineKeyHandler -Key Ctrl+g -ScriptBlock {
+  #   Get-ChildItem . -Depth 4 -Attributes Directory | Invoke-Fzf | Set-Location
+  # }
+
+  # open a file (i can't get this to work)
+  # Set-PSReadLineKeyHandler -Key Ctrl+o -ScriptBlock {
+    # Invoke-FuzzyEdit
+    # [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
+  # }
+}
+
 Invoke-Expression (& { (zoxide init powershell --cmd j | Out-String) }) # Initialize zoxide
+Invoke-Expression (&sfsu hook)
