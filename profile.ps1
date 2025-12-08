@@ -9,16 +9,10 @@ $env:ARDUINO_CONFIG_FILE = "C:\Users\nicol\.arduinoIDE\arduino-cli.yaml"
 $env:FZF_DEFAULT_OPTS="--style=minimal --info=inline --height=20% --reverse"
 # $env:_ZO_FZF_OPTS="--style=minimal --info=inline --height=20% --reverse"
 $env:FZF_DEFAULT_COMMAND="fd --type f --hidden --exclude .git --exclude .venv"
-
-Set-Alias whereis where.exe
-Set-Alias which Get-Command
-Set-Alias ls eza_short
-Set-Alias la eza_alh
-Set-Alias l eza_l
-Set-Alias lt ltt
-Set-Alias ff fastfetch
-Set-Alias open start
-Set-Alias s sfsu
+# $PSModuleAutoLoadingPreference = 'None'
+Import-Module Microsoft.PowerShell.Utility
+Import-Module Microsoft.PowerShell.Management
+Import-Module PsFzf
 
 function lg { lazygit @args }
 function n { nvim @args }
@@ -44,45 +38,37 @@ function e {
   $tmp = New-TemporaryFile
   yazi --cwd-file $tmp.FullName
   $cwd = Get-Content $tmp.FullName
-  if ($cwd -ne $PWD.Path)
-  {
+  if ($cwd -ne $PWD.Path) {
     Set-Location $cwd
   }
   Remove-Item $tmp.FullName
 }
 function attackstart {
-  try
-  {
+  try {
     vmrun -T ws start "C:\Users\nicol\OneDrive\Documents\Virtual Machines\Test VM\Test VM.vmx" nogui
   } catch
   { Write-Error "Failed to start the attack VM: $_"
   }
 }
 function attackstop {
-  try
-  {
+  try {
     vmrun -T ws stop "C:\Users\nicol\OneDrive\Documents\Virtual Machines\Test VM\Test VM.vmx" hard
   } catch
   { Write-Error "Failed to stop the attack VM: $_"
   }
 }
 function targetstart {
-  try
-  {
+  try {
     vmrun -T ws start "C:\Users\nicol\OneDrive\Documents\Virtual Machines\Target\Target.vmx" nogui
   } catch
-  { Write-Error "Failed to start the target VM: $_"
-  }
+  { Write-Error "Failed to start the target VM: $_" }
 }
 function targetstop {
-  try
-  {
+  try {
     vmrun -T ws stop "C:\Users\nicol\OneDrive\Documents\Virtual Machines\Target\Target.vmx" hard
   } catch
-  { Write-Error "Failed to stop the target VM: $_"
-  }
+  { Write-Error "Failed to stop the target VM: $_" }
 }
-
 function global:prompt {
   $currentDirectory = (Get-Location).Path
   $displayPath = $currentDirectory.Replace($HOME, "~")
@@ -107,6 +93,16 @@ function global:prompt {
   Write-Host "[win] ${displayPath}` ❯" -NoNewline
   return " "
 }
+
+Set-Alias whereis where.exe
+Set-Alias which Get-Command
+Set-Alias ls eza_short
+Set-Alias la eza_alh
+Set-Alias l eza_l
+Set-Alias lt ltt
+Set-Alias ff fastfetch
+Set-Alias open start
+Set-Alias s sfsu
 
 if ($Host.UI.SupportsVirtualTerminal) {
   # interactive shell only
