@@ -70,9 +70,16 @@ function targetstop {
   { Write-Error "Failed to stop the target VM: $_" }
 }
 function global:prompt {
-  $currentDirectory = (Get-Location).Path
+  $currentLocation = Get-Location
+  $currentDirectory = $currentLocation.Path
   $displayPath = $currentDirectory.Replace($HOME, "~")
   $windowTitle = "${displayPath}: "
+
+  # tell windows terminal the current working directory
+  if ($currentLocation.Provider.Name -eq "FileSystem") {
+    $cwdSequence = "$([char]27)]9;9;`"$($currentDirectory)`"$([char]27)\"
+    Write-Host $cwdSequence -NoNewline
+  }
 
   if ($Host.Name -ne "ConsoleHost") {
       $processName = $Host.Name
@@ -90,7 +97,7 @@ function global:prompt {
       $Host.UI.RawUI.WindowTitle = "${displayPath}"
   }
 
-  Write-Host "[win] ${displayPath}` ❯" -NoNewline
+  Write-Host "[win] ${displayPath} ❯" -NoNewline
   return " "
 }
 
