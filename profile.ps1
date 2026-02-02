@@ -22,7 +22,8 @@ function n. { nvim . }
 function q { exit }
 function gp { git pull }
 function so { . $PROFILE }
-function gs {git status }
+function gs { git status }
+function tt { ttyper }
 function eza_short { eza --icons=always --group-directories-first --color=always @args }
 function eza_alh { eza -Alh --group-directories-first --color=always @args }
 function eza_l { eza -l --icons=always --group-directories-first --color=always --git -a @args }
