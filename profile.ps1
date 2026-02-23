@@ -3,11 +3,12 @@ $env:EDITOR = "nvim"
 $env:NVIM_FULL_CONFIG = "true"
 $env:TERM = 'xterm-255color'
 $env:PATH += ";C:\Users\nicol\sqlite\"
-$env:PATH += ";C:\Users\nicol\AppData\Local\Programs\arduino-ide\resources\app\lib\backend\resources\"
 $env:PATH += ";C:\Windows\System33"
-$env:ARDUINO_CONFIG_FILE = "C:\Users\nicol\.arduinoIDE\arduino-cli.yaml"
 $env:FZF_DEFAULT_OPTS="--style=minimal --info=inline --height=20% --reverse"
 $env:FZF_DEFAULT_COMMAND="fd --type f --hidden --exclude .git --exclude .venv"
+$env:XDG_DATA_HOME = "$env:LOCALAPPDATA"
+# $env:ARDUINO_CONFIG_FILE = "C:\Users\nicol\.arduinoIDE\arduino-cli.yaml"
+# $env:PATH += ";C:\Users\nicol\AppData\Local\Programs\arduino-ide\resources\app\lib\backend\resources\"
 # $env:_ZO_FZF_OPTS="--style=minimal --info=inline --height=20% --reverse"
 # $PSModuleAutoLoadingPreference = 'None'
 # Import-Module Microsoft.PowerShell.Utility
@@ -87,6 +88,7 @@ Set-Alias lt ltt
 Set-Alias ff fastfetch
 Set-Alias open start
 Set-Alias s sfsu
+Set-Alias p pipes-rs
 
 Set-PSReadlineOption -EditMode Emacs
 Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
