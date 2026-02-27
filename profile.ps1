@@ -29,7 +29,7 @@ function eza_short { eza --icons=always --group-directories-first --color=always
 function eza_alh { eza -Alh --group-directories-first --color=always @args }
 function eza_l { eza -l --icons=always --group-directories-first --color=always --git -a @args }
 function ltt { eza --tree @args }
-function cenv { py -m venv .venv }
+function cenv { python -m venv .venv }
 function senv { .venv\Scripts\activate }
 function o { fd --type f --exclude .git --hidden | Invoke-Fzf | ForEach-Object { nvim $_ } }
 function e {
