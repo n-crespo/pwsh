@@ -3,7 +3,7 @@ $env:EDITOR = "nvim"
 $env:NVIM_FULL_CONFIG = "true"
 $env:TERM = 'xterm-255color'
 $env:PATH += ";C:\Users\nicol\sqlite\"
-$env:PATH += ";C:\Windows\System33"
+$env:PATH += ";C:\Windows\System32"
 $env:FZF_DEFAULT_OPTS="--style=minimal --info=inline --height=20% --reverse"
 $env:FZF_DEFAULT_COMMAND="fd --type f --hidden --exclude .git --exclude .venv"
 $env:XDG_DATA_HOME = "$env:LOCALAPPDATA"
@@ -31,7 +31,20 @@ function eza_l { eza -l --icons=always --group-directories-first --color=always 
 function ltt { eza --tree @args }
 function cenv { python -m venv .venv }
 function senv { .venv\Scripts\activate }
-function o { fd --type f --exclude .git --hidden | Invoke-Fzf | ForEach-Object { nvim $_ } }
+# function o { fd --type f --exclude .git --hidden | Invoke-Fzf | ForEach-Object { nvim $_ } }
+
+function o {
+  # run fzf and capture the selection
+  $selection = fd --type f --exclude .git --hidden | Invoke-Fzf
+
+  # only proceed if a file was actually selected (prevents hang on ESC)
+  if ($selection) {
+    # use Start-Process with -Wait to ensure nvim owns the TTY fully
+    # or call nvim directly but follow with a screen clear
+    nvim $selection
+  }
+}
+
 function e {
   $tmp = New-TemporaryFile
   yazi --cwd-file $tmp.FullName
@@ -92,6 +105,12 @@ Set-Alias p pipes-rs
 
 Set-PSReadlineOption -EditMode Emacs
 Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
+# open file with <C-o>
+Set-PSReadLineKeyHandler -Key "Ctrl+o" -ScriptBlock {
+  [Microsoft.PowerShell.PSConsoleReadLine]::RevertLine()
+  [Microsoft.PowerShell.PSConsoleReadLine]::Insert("o")
+  [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine()
+}
 
 # if ($Host.UI.SupportsVirtualTerminal) {
 #   Import-Module PSReadLine
