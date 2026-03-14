@@ -105,6 +105,7 @@ Set-Alias p pipes-rs
 
 Set-PSReadlineOption -EditMode Emacs
 Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
+Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+r' -PSReadlineChordReverseHistory 'Ctrl+r'
 # open file with <C-o>
 Set-PSReadLineKeyHandler -Key "Ctrl+o" -ScriptBlock {
   [Microsoft.PowerShell.PSConsoleReadLine]::RevertLine()
@@ -115,8 +116,8 @@ Set-PSReadLineKeyHandler -Key "Ctrl+o" -ScriptBlock {
 # if ($Host.UI.SupportsVirtualTerminal) {
 #   Import-Module PSReadLine
 #   Set-PSReadLineOption -BellStyle None
-#   Set-PSReadLineKeyHandler -Key Ctrl+r -ScriptBlock { Invoke-FuzzyHistory }
-#   Set-PSReadLineKeyHandler -Key Ctrl+j -ScriptBlock { zoxide query -l | Invoke-Fzf | Set-Location }
+#Set-PSReadLineKeyHandler -Key Ctrl+r -ScriptBlock { Invoke-FuzzyHistory }
+#Set-PSReadLineKeyHandler -Key Ctrl+j -ScriptBlock { zoxide query -l | Invoke-Fzf | Set-Location }
 
 Invoke-Expression (& { (zoxide init powershell --cmd j | Out-String) }) # Initialize zoxide
 Invoke-Expression (&sfsu hook)
