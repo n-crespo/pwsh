@@ -110,6 +110,11 @@ Set-PSReadLineKeyHandler -Key "Ctrl+o" -ScriptBlock {
   [Microsoft.PowerShell.PSConsoleReadLine]::Insert("o")
   [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine()
 }
+Set-PSReadLineKeyHandler -Key "Alt+p" -ScriptBlock {
+  [Microsoft.PowerShell.PSConsoleReadLine]::RevertLine()
+  [Microsoft.PowerShell.PSConsoleReadLine]::Insert("o")
+  [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine()
+}
 
 Invoke-Expression (& { (zoxide init powershell --cmd j | Out-String) }) # Initialize zoxide
 Invoke-Expression (&sfsu hook)
