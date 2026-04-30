@@ -44,7 +44,7 @@ function eza_alh
 { eza -Alh --group-directories-first --color=always @args
 }
 function eza_l
-{ eza -l --icons=always --group-directories-first --color=always --git -a @args
+{ eza -l --icons=always --group-directories-first --color=always -a @args
 }
 function ltt
 { eza --tree @args
