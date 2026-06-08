@@ -88,6 +88,36 @@ function global:prompt
   return " "
 }
 
+# paste clipboard image to current directory
+# named {first-arg}.png
+function imgp
+{
+  param (
+    [string]$Filename = "snippet.png"
+  )
+
+  # force .png extension if missing
+  if ($Filename -notlike "*.png" -and $Filename -notlike "*.jpg" -and $Filename -notlike "*.jpeg")
+  {
+    $Filename = "$Filename.png"
+  }
+
+  # resolve the true absolute path based on your current terminal location
+  $AbsolutePath = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($Filename)
+
+  Add-Type -AssemblyName System.Windows.Forms
+  $img = [System.Windows.Forms.Clipboard]::GetImage()
+
+  if ($img -ne $null)
+  {
+    $img.Save($AbsolutePath, [System.Drawing.Imaging.ImageFormat]::Png)
+    Write-Host "Saved clipboard image to $AbsolutePath"
+  } else
+  {
+    Write-Warning "No image found in clipboard."
+  }
+}
+
 # aliases
 Set-Alias whereis where.exe
 Set-Alias which Get-Command
