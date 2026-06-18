@@ -1,7 +1,7 @@
 # environment variables
 $env:EDITOR = "nvim"
 $env:NVIM_FULL_CONFIG = "true"
-$env:TERM = 'xterm-255color'
+$env:TERM = 'xterm-256color'
 $env:FZF_DEFAULT_OPTS="--style=minimal --info=inline --height=20% --reverse"
 $env:FZF_DEFAULT_COMMAND="fd --type f --hidden --exclude .git --exclude .venv"
 $env:XDG_DATA_HOME = "$env:LOCALAPPDATA"
