@@ -68,7 +68,7 @@ function o
 function s
 {
   git add .
-  git commit
+  git commit -m @args
   git push
 }
 
