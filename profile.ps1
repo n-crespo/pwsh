@@ -64,6 +64,15 @@ function o
   }
 }
 
+# save (with git)
+function s
+{
+  git add .
+  git commit
+  git push
+}
+
+
 function e
 {
   $tmp = New-TemporaryFile
@@ -84,7 +93,7 @@ function global:prompt
     [Console]::Write("$([char]27)]9;9;`"$($pwd.Path)`"$([char]27)\")
   }
   $Host.UI.RawUI.WindowTitle = $displayPath
-  [Console]::Write("[win] $displayPath ❯")
+  [Console]::Write("[win] $displayPath »")
   return " "
 }
 
@@ -125,10 +134,10 @@ Set-Alias ls eza_short
 Set-Alias la eza_alh
 Set-Alias l eza_l
 Set-Alias lt ltt
-Set-Alias ff fastfetch
+# Set-Alias ff fastfetch
 Set-Alias open start
-Set-Alias s sfsu
-Set-Alias p pipes-rs
+# Set-Alias s sfsu
+# Set-Alias p pipes-rs
 
 Set-PSReadlineOption -EditMode Emacs
 Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
@@ -142,4 +151,4 @@ Set-PSReadLineKeyHandler -Key "Alt+o" -ScriptBlock {
 }
 
 Invoke-Expression (& { (zoxide init powershell --cmd j | Out-String) }) # Initialize zoxide
-Invoke-Expression (&sfsu hook)
+# Invoke-Expression (&sfsu hook)
