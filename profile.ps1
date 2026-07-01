@@ -96,7 +96,14 @@ function global:prompt
   {
     [Console]::Write("$([char]27)]9;9;`"$($pwd.Path)`"$([char]27)\")
   }
-  $Host.UI.RawUI.WindowTitle = $displayPath
+  $cwd = Split-Path -Leaf $pwd.Path
+  if ([string]::IsNullOrWhiteSpace($cwd))
+  {
+    $cwd = $pwd.Path
+  }
+
+  $Host.UI.RawUI.WindowTitle = "$cwd - pwsh"
+
   [Console]::Write("[win] $displayPath »")
   return " "
 }
