@@ -33,7 +33,7 @@ function gp
 { git pull
 }
 function so
-{ . $PROFILE
+{ . $PROFILE.CurrentUserAllHosts
 }
 function gs
 { git status
