@@ -10,6 +10,10 @@ $env:XDG_DATA_HOME = "$env:LOCALAPPDATA"
 function lg
 { lazygit @args
 }
+function w
+{ wsl -e zsh -ic @args
+}
+
 function n
 { nvim @args
 }
