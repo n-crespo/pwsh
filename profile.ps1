@@ -104,7 +104,7 @@ function global:prompt
 
   $Host.UI.RawUI.WindowTitle = "$cwd - pwsh"
 
-  [Console]::Write("[win] $displayPath »")
+  [Console]::Write("$displayPath »")
   return " "
 }
 
