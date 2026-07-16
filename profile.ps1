@@ -138,6 +138,11 @@ function imgp
   }
 }
 
+function script:SetPsFzfAlias {
+    param($Name, $Function)
+    New-Alias -Name $Name -Scope Global -Value $Function -ErrorAction Ignore
+}
+
 # aliases
 Set-Alias whereis where.exe
 Set-Alias which Get-Command
@@ -160,6 +165,10 @@ Set-PSReadLineKeyHandler -Key "Alt+p" -ScriptBlock {
   [Microsoft.PowerShell.PSConsoleReadLine]::Insert("o")
   [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine()
 }
+# Set-PSReadLineKeyHandler -Key "Alt+c" -ScriptBlock { Invoke-FuzzySetLocation }
+SetPsFzfAlias "fj" Invoke-FuzzySetLocation
+SetPsFzfAlias "fkill" Invoke-FuzzyKillProcess
+SetPsFzfAlias "fh" Invoke-FuzzyHistory
 
 Invoke-Expression (& { (zoxide init powershell --cmd j | Out-String) }) # Initialize zoxide
 # Invoke-Expression (&sfsu hook)
