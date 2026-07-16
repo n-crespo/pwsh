@@ -155,7 +155,7 @@ Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
 # Set-PSReadLineKeyHandler -Key Ctrl+r -ScriptBlock { Invoke-FuzzyHistory }
 # Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+r' -PSReadlineChordReverseHistory 'Ctrl+r'
 # open file with <M-o>
-Set-PSReadLineKeyHandler -Key "Alt+o" -ScriptBlock {
+Set-PSReadLineKeyHandler -Key "Alt+p" -ScriptBlock {
   [Microsoft.PowerShell.PSConsoleReadLine]::RevertLine()
   [Microsoft.PowerShell.PSConsoleReadLine]::Insert("o")
   [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine()
