@@ -2,7 +2,7 @@
 $env:EDITOR = "nvim"
 $env:NVIM_FULL_CONFIG = "true"
 $env:TERM = 'xterm-256color'
-$env:FZF_DEFAULT_OPTS="--style=minimal --info=inline --height=20% --reverse"
+$env:FZF_DEFAULT_OPTS="--info=inline --height=~50% --reverse"
 $env:FZF_DEFAULT_COMMAND="fd --type f --hidden --exclude .git --exclude .venv"
 $env:XDG_DATA_HOME = "$env:LOCALAPPDATA"
 
@@ -158,6 +158,12 @@ Set-Alias open start
 Set-PSReadlineOption -EditMode Emacs
 Set-PSReadLineOption -BellStyle None # shut up
 # Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
+
+Set-PSReadLineKeyHandler -Key Ctrl+j -ScriptBlock {
+  [Microsoft.PowerShell.PSConsoleReadLine]::RevertLine()
+  [Microsoft.PowerShell.PSConsoleReadLine]::Insert("ji")
+  [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine()
+}
 # Set-PSReadLineKeyHandler -Key Ctrl+r -ScriptBlock { Invoke-FuzzyHistory }
 # Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+r' -PSReadlineChordReverseHistory 'Ctrl+r'
 # open file with <M-o>
