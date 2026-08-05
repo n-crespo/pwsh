@@ -5,6 +5,7 @@ $env:TERM = 'xterm-256color'
 $env:FZF_DEFAULT_OPTS="--info=inline --height=~50% --reverse"
 $env:FZF_DEFAULT_COMMAND="fd --type f --hidden --exclude .git --exclude .venv"
 $env:XDG_DATA_HOME = "$env:LOCALAPPDATA"
+$env:TIME_STYLE="+%b %d %I:%M %p"
 
 # functions
 function lg
