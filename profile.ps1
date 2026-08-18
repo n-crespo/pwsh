@@ -63,7 +63,7 @@ function senv
 
 function o
 {
-  $selection = fd --type f --exclude .git --hidden | Invoke-Fzf
+  $selection = Invoke-Fzf
   if ($selection)
   { nvim $selection
   }
