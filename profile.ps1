@@ -160,6 +160,7 @@ Set-Alias l eza_l
 Set-Alias lt ltt
 # Set-Alias ff fastfetch
 Set-Alias open start
+Set-Alias c cls
 # Set-Alias s sfsu
 # Set-Alias p pipes-rs
 
