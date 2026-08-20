@@ -186,6 +186,9 @@ Set-PSReadLineKeyHandler -Key "Alt+p" -ScriptBlock {
   [Microsoft.PowerShell.PSConsoleReadLine]::Insert("o")
   [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine()
 }
+Set-PSReadLineKeyHandler -Key "Ctrl+alt+l" -ScriptBlock {
+  [Microsoft.PowerShell.PSConsoleReadLine]::ClearScreen()
+}
 # Set-PSReadLineKeyHandler -Key "Alt+c" -ScriptBlock { Invoke-FuzzySetLocation }
 SetPsFzfAlias "fj" Invoke-FuzzySetLocation
 SetPsFzfAlias "fkill" Invoke-FuzzyKillProcess
