@@ -76,13 +76,13 @@ function o
   }
 }
 
-# save (with git)
-function s
-{
-  git add .
-  git commit -m @args
-  git push
-}
+# # save (with git)
+# function s
+# {
+#   git add .
+#   git commit -m @args
+#   git push
+# }
 
 
 function e
