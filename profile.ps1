@@ -7,11 +7,10 @@ $env:FZF_DEFAULT_COMMAND="fd --type f --hidden --exclude .git --exclude .venv"
 $env:XDG_DATA_HOME = "$env:LOCALAPPDATA"
 $env:TIME_STYLE="+%b %d %I:%M %p"
 
-function getenv {
-  Get-Content ~/.env | Where-Object { $_ -match '=' -and $_ -notmatch '^#' } | ForEach-Object {
-    $name, $value = $_ -split '=', 2
-      [System.Environment]::SetEnvironmentVariable($name.Trim(), $value.Trim(), 'Process')
-  }
+$envFile = "$HOME/.env"
+if (Test-Path $envFile)
+{
+  Invoke-Expression (Get-Content -Raw $envFile)
 }
 
 # functions
