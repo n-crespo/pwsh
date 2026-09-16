@@ -145,9 +145,10 @@ function imgp
   }
 }
 
-function script:SetPsFzfAlias {
-    param($Name, $Function)
-    New-Alias -Name $Name -Scope Global -Value $Function -ErrorAction Ignore
+function script:SetPsFzfAlias
+{
+  param($Name, $Function)
+  New-Alias -Name $Name -Scope Global -Value $Function -ErrorAction Ignore
 }
 
 # aliases
