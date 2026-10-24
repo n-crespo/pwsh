@@ -95,6 +95,27 @@ function e
   Remove-Item $tmp.FullName
 }
 
+# initialize miniforge's conda in this session (like the Miniforge Prompt)
+function condai
+{
+  $root = Join-Path $HOME "miniforge3"
+  $exe  = Join-Path $root "Scripts\conda.exe"
+  if (-not (Test-Path $exe))
+  { Write-Error "conda not found at $exe"; return
+  }
+
+  $env:CONDA_EXE = $exe
+  $env:_CE_M = ""
+  $env:_CE_CONDA = ""
+  $env:_CONDA_ROOT = $root
+  $env:_CONDA_EXE = $exe
+
+  (& $exe "shell.powershell" "hook") | Out-String | Where-Object { $_ } | Invoke-Expression
+
+  # activate base, as the Miniforge Prompt does
+  conda activate base
+}
+
 # prompt (already optimized via .NET calls)
 function global:prompt
 {
