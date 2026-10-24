@@ -179,10 +179,10 @@ Set-Alias ls eza_short
 Set-Alias la eza_alh
 Set-Alias l eza_l
 Set-Alias lt ltt
-# Set-Alias ff fastfetch
+Set-Alias ff fastfetch
 Set-Alias open start
 Set-Alias c cls
-# Set-Alias s sfsu
+Set-Alias s sfsu
 # Set-Alias p pipes-rs
 
 Set-PSReadlineOption -EditMode Emacs
