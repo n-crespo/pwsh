@@ -17,9 +17,6 @@ if (Test-Path $envFile)
 function lg
 { lazygit @args
 }
-function w
-{ wsl -e zsh -ic @args
-}
 
 function n
 { nvim @args
