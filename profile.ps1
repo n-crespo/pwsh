@@ -17,6 +17,9 @@ if (Test-Path $envFile)
 function lg
 { lazygit @args
 }
+function gg
+{ wt -d "$($PWD.ProviderPath)" lazygit
+}
 
 function n
 { nvim @args
