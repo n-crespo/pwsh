@@ -14,11 +14,18 @@ if (Test-Path $envFile)
 }
 
 # functions
+# Run a command with NO_COLOR cleared (some hosts, e.g. T3 Code, export NO_COLOR=1)
+function Invoke-WithColor([scriptblock]$Block)
+{ $saved = $env:NO_COLOR
+  Remove-Item Env:NO_COLOR -ErrorAction SilentlyContinue
+  try { & $Block } finally { if ($null -ne $saved) { $env:NO_COLOR = $saved } }
+}
 function lg
-{ lazygit @args
+{ $a = $args
+  Invoke-WithColor { lazygit @a }
 }
 function gg
-{ wt -d "$($PWD.ProviderPath)" lazygit
+{ Invoke-WithColor { wt -d "$($PWD.ProviderPath)" lazygit }
 }
 
 function n
